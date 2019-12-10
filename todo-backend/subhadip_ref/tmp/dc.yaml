@@ -1,0 +1,210 @@
+apiVersion: v1
+items:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-10T09:44:13Z"
+    generation: 2
+    labels:
+      app: quotesapi
+    name: quotesapi
+    namespace: subhadipdhar-quotes-dev
+    resourceVersion: "54161305"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/subhadipdhar-quotes-dev/deploymentconfigs/quotesapi
+    uid: 9f7085f9-1b31-11ea-b04b-0a580a820134
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: quotesapi
+      deploymentconfig: quotesapi
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: quotesapi
+          deploymentconfig: quotesapi
+      spec:
+        containers:
+        - env:
+          - name: DATABASE_NAME
+            value: quotesdb
+          - name: DATABASE_PASSWORD
+            value: redhat
+          - name: DATABASE_SERVICE_NAME
+            value: quotesdb
+          - name: DATABASE_USER
+            value: quoteapp
+          image: image-registry.openshift-image-registry.svc:5000/subhadipdhar-quotes-dev/quotesapi@sha256:1708504ce8da8ffd3f4f923339b14556fa3c087a8def0e36077fd0476ac121a6
+          imagePullPolicy: Always
+          name: quotesapi
+          ports:
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - quotesapi
+        from:
+          kind: ImageStreamTag
+          name: quotesapi:latest
+          namespace: subhadipdhar-quotes-dev
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/subhadipdhar-quotes-dev/quotesapi@sha256:1708504ce8da8ffd3f4f923339b14556fa3c087a8def0e36077fd0476ac121a6
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-12-10T09:46:50Z"
+      lastUpdateTime: "2019-12-10T09:46:50Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-12-10T09:46:40Z"
+      lastUpdateTime: "2019-12-10T09:46:51Z"
+      message: replication controller "quotesapi-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-10T09:43:32Z"
+    generation: 3
+    labels:
+      app: quotesdb
+    name: quotesdb
+    namespace: subhadipdhar-quotes-dev
+    resourceVersion: "54160217"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/subhadipdhar-quotes-dev/deploymentconfigs/quotesdb
+    uid: 87000304-1b31-11ea-8648-0a580a810062
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: quotesdb
+      deploymentconfig: quotesdb
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: quotesdb
+          deploymentconfig: quotesdb
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_DATABASE
+            value: quotesdb
+          - name: MYSQL_PASSWORD
+            value: redhat
+          - name: MYSQL_USER
+            value: quoteapp
+          image: image-registry.openshift-image-registry.svc:5000/openshift/mysql@sha256:225ccc7a059a8e615ce3e5f4aa6fae507a9e03b4562dccf3a98b09ff69bcdeb7
+          imagePullPolicy: IfNotPresent
+          name: quotesdb
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: quotesdb-volume-1
+          persistentVolumeClaim:
+            claimName: quotesdb-claim
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - quotesdb
+        from:
+          kind: ImageStreamTag
+          name: mysql:5.7
+          namespace: openshift
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/openshift/mysql@sha256:225ccc7a059a8e615ce3e5f4aa6fae507a9e03b4562dccf3a98b09ff69bcdeb7
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-12-10T09:44:09Z"
+      lastUpdateTime: "2019-12-10T09:44:09Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-12-10T09:43:42Z"
+      lastUpdateTime: "2019-12-10T09:44:10Z"
+      message: replication controller "quotesdb-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

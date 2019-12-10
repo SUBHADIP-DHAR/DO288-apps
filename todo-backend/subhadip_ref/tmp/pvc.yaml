@@ -1,0 +1,38 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
+      volume.kubernetes.io/selected-node: ip-10-0-170-161.ec2.internal
+    creationTimestamp: "2019-12-10T09:43:32Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: quotesdb-claim
+    namespace: subhadipdhar-quotes-dev
+    resourceVersion: "54160022"
+    selfLink: /api/v1/namespaces/subhadipdhar-quotes-dev/persistentvolumeclaims/quotesdb-claim
+    uid: 875fbcc7-1b31-11ea-93e7-12bd13d94826
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    dataSource: null
+    resources:
+      requests:
+        storage: 300Mi
+    storageClassName: gp2
+    volumeMode: Filesystem
+    volumeName: pvc-875fbcc7-1b31-11ea-93e7-12bd13d94826
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
